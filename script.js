@@ -33,6 +33,7 @@ var tileData = {
   3072: "#8F00FF",
 };
 function generate() {
+  //Creates an Array Matrix
   for(let x = 0; x < 4; x++) {
     let row = [];
     
@@ -63,12 +64,13 @@ function renderTiles() {
       
       ctx.fillRect(x * 100, y * 100, WIDTH / gridSize - tileSpace, HEIGHT /gridSize - tileSpace);
       if(tileMap[x][y].tile != "empty") {
+	//Shows the Number on the Tile
         ctx.fillStyle = "black";
-				ctx.font = "40px Arial";
+	ctx.font = "40px Arial";
         ctx.fillText(tileMap[x][y].tile,x * 100 + WIDTH / 10, y * 100 + HEIGHT / 6.5);
-				ctx.fillStyle = "white";
-				ctx.font = "38px Arial";
-				ctx.fillText(tileMap[x][y].tile,x * 100 + WIDTH / 10 + 0.5, y * 100 + HEIGHT / 6.5 - 0.5);
+	ctx.fillStyle = "white";
+	ctx.font = "38px Arial";
+	ctx.fillText(tileMap[x][y].tile,x * 100 + WIDTH / 10 + 0.5, y * 100 + HEIGHT / 6.5 - 0.5);
       }
     }
   } 
@@ -103,7 +105,7 @@ function gameEnd() {
 
 function addTile() {
 	//stops from adding a new tile if there is only one tile left
-		lastChance = false;
+	  lastChance = false;
 	  var randomX = rng(gridSize);
 	  var randomY = rng(gridSize);
 	  if(tileMap[randomX][randomY].tile == "empty") {
@@ -147,9 +149,9 @@ function moveTiles(h,v) {
   for(let x = 0; x < gridSize; x++) {
     for(let y = 0; y < gridSize; y++) {
       if(tileMap[x][y].tile != "empty") {
-      let curTile = tileMap[x][y];
-      tileMove(x,y,h,v);
-      }
+      	   let curTile = tileMap[x][y];
+      	   tileMove(x,y,h,v);
+      	}
       }
     }
   }
@@ -157,10 +159,10 @@ function moveTiles(h,v) {
   function tileMove(x,y,h,v) { 
     let newX = x + h;
     let newY = y + v;
-
-    if(newX > 3 || newY > 3 || newX < 0 || newY < 0) {
-      //ends function :)
-    }
+    
+    //ends function if the tile has reaches the side. 
+    if(newX > 3 || newY > 3 || newX < 0 || newY < 0) {}
+    //ends function if it runs into another tile, and if it's the same number then merge
     else if(tileMap[newX][newY].tile != "empty") {
      if(tileMap[newX][newY].tile == tileMap[x][y].tile) {
        tileMap[newX][newY].tile = tileMap[newX][newY].tile * 2;
@@ -169,11 +171,11 @@ function moveTiles(h,v) {
     }
 
     else {
-      
       tileMap[newX][newY].tile = tileMap[x][y].tile;
       tileMap[x][y].tile = "empty";
       ctx.fillStyle = tileData[tileMap[x][y].tile];
       ctx.fillRect(x * 100, y * 100, WIDTH / gridSize - tileSpace, HEIGHT /gridSize - tileSpace);
+      //Recursive
       tileMove(newX,newY,h,v);
     }
   }
